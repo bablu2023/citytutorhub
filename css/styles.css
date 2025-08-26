@@ -1,0 +1,1034 @@
+/* ==========================================================================
+   Global Variables
+   ========================================================================== */
+:root {
+    --teal: #005566;
+    --teal-dark: #003d4d;
+    --teal-hover: #00777f;
+    --coral: #ff6f61;
+    --coral-dark: #e55a50;
+    --light-bg: #f9f9f9;
+    --white: #ffffff;
+    --dark-bg: #003d4d;
+    --darker-bg: #002a36;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    --hover-shadow: 0 8px 24px rgba(255, 111, 97, 0.3);
+    --transition: all 0.3s ease-in-out;
+    --glass-bg: rgba(255, 255, 255, 0.2);
+    --glass-blur: blur(10px); /* Optimized for performance */
+    --glass-border: 1px solid rgba(255, 255, 255, 0.3);
+    --text-color: #333333;
+    --dark-text: #e0e0e0;
+    --error-color: #d32f2f;
+    --success-color: #2e7d32;
+    --font-primary: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --border-radius: 12px;
+}
+
+/* Dark Mode */
+[data-theme="dark"] {
+    --light-bg: #1e2a2a;
+    --white: #2a3a3a;
+    --text-color: #e0e0e0;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --hover-shadow: 0 8px 24px rgba(255, 111, 97, 0.4);
+    --glass-bg: rgba(255, 255, 255, 0.15);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ==========================================================================
+   Global Styles
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-primary);
+    line-height: 1.8;
+    color: var(--text-color);
+    background-color: var(--light-bg);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes liftAndGlow {
+    0% { transform: translateY(0); box-shadow: var(--shadow); }
+    50% { transform: translateY(-6px); box-shadow: var(--hover-shadow); }
+    100% { transform: translateY(0); box-shadow: var(--shadow); }
+}
+
+@keyframes hoverReveal {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes errorPulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.05); opacity: 1; }
+}
+
+.fade-in-scale {
+    opacity: 0;
+    animation: fadeInScale 0.5s ease-out forwards;
+}
+
+.fade-in-up {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.fade-in-scale:nth-child(2), .fade-in-up:nth-child(2) { animation-delay: 0.1s; }
+.fade-in-scale:nth-child(3), .fade-in-up:nth-child(3) { animation-delay: 0.2s; }
+.fade-in-scale:nth-child(4), .fade-in-up:nth-child(4) { animation-delay: 0.3s; }
+
+/* ==========================================================================
+   Header and Navigation
+   ========================================================================== */
+.navbar {
+    background: linear-gradient(135deg, var(--teal), var(--teal-hover));
+    padding: 1rem;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: var(--transition);
+}
+
+.navbar.scrolled {
+    background: rgba(0, 85, 102, 0.95);
+}
+
+.navbar-brand img {
+    height: 40px;
+    transition: var(--transition);
+}
+
+.navbar-brand img:hover, .navbar-brand img:focus {
+    transform: scale(1.1);
+}
+
+.nav-link {
+    color: var(--white) !important;
+    font-weight: 500;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    padding: 0.5rem 1rem;
+    position: relative;
+    transition: var(--transition);
+}
+
+.nav-link:hover, .nav-link:focus, .nav-link.active {
+    color: var(--coral) !important;
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--coral);
+    animation: underline 0.3s ease forwards;
+}
+
+@keyframes underline {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+.navbar-nav .cta-button {
+    background: var(--coral);
+    color: var(--white);
+    padding: 0.6rem 1.8rem;
+    border-radius: 10px;
+    font-weight: 600;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.navbar-nav .cta-button:hover, .navbar-nav .cta-button:focus {
+    background: var(--coral-dark);
+    transform: scale(1.05);
+    box-shadow: var(--hover-shadow);
+}
+
+.navbar-toggler {
+    border: none;
+    padding: 8px;
+}
+
+.navbar-toggler-icon {
+    background-image: none;
+    width: 24px;
+    height: 2px;
+    background: var(--white);
+    position: relative;
+    transition: var(--transition);
+}
+
+.navbar-toggler-icon::before, .navbar-toggler-icon::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background: var(--white);
+    transition: var(--transition);
+}
+
+.navbar-toggler-icon::before { top: -8px; }
+.navbar-toggler-icon::after { top: 8px; }
+
+.navbar-toggler.active .navbar-toggler-icon {
+    background: transparent;
+}
+
+.navbar-toggler.active .navbar-toggler-icon::before {
+    transform: rotate(45deg);
+    top: 0;
+}
+
+.navbar-toggler.active .navbar-toggler-icon::after {
+    transform: rotate(-45deg);
+    top: 0;
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-left: 1rem;
+    transition: var(--transition);
+}
+
+.theme-toggle:hover, .theme-toggle:focus {
+    transform: scale(1.1);
+    color: var(--coral);
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.btn, .cta-button {
+    background: var(--coral);
+    color: var(--white);
+    border: none;
+    padding: 0.9rem 2rem;
+    border-radius: var(--border-radius);
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.btn:hover, .btn:focus, .cta-button:hover, .cta-button:focus {
+    background: var(--coral-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--hover-shadow);
+}
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+.form-group {
+    position: relative;
+    margin-bottom: 1.8rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.9rem 1.2rem;
+    border-radius: var(--border-radius);
+    border: 1px solid #ccc;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    background: var(--white);
+    color: var(--text-color);
+    transition: var(--transition);
+}
+
+.form-control:focus {
+    border-color: var(--coral);
+    box-shadow: 0 0 8px rgba(255, 111, 97, 0.3);
+    outline: none;
+}
+
+.form-control:not(:placeholder-shown) + .form-control-label,
+.form-control:focus + .form-control-label {
+    transform: translateY(-2.8rem) scale(0.85);
+    color: var(--coral);
+    background: var(--white);
+    padding: 0 0.5rem;
+}
+
+.form-control-label {
+    position: absolute;
+    top: 0.9rem;
+    left: 1.2rem;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    color: #666;
+    transition: var(--transition);
+    pointer-events: none;
+}
+
+.form-control:invalid:not(:focus):not(:placeholder-shown) {
+    border-color: var(--error-color);
+}
+
+.form-control:valid:not(:focus):not(:placeholder-shown) {
+    border-color: var(--success-color);
+}
+
+select.form-control {
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%23005566" d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 1.2rem center;
+    background-size: 12px;
+    padding-right: 2.5rem;
+}
+
+select.form-control:focus {
+    border-color: var(--coral);
+    box-shadow: 0 0 8px rgba(255, 111, 97, 0.3);
+}
+
+input[type="file"].form-control {
+    padding: 0.6rem 1.2rem;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+    background: var(--coral);
+    color: var(--white);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+    background: var(--coral-dark);
+    transform: scale(1.02);
+}
+
+.form-error {
+    color: var(--error-color);
+    font-size: 0.85rem;
+    margin-top: 0.4rem;
+    display: none;
+}
+
+.form-control.error + .form-control-label + .form-error {
+    display: block;
+}
+
+.form-error-message {
+    color: var(--error-color);
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    background: rgba(211, 47, 47, 0.15);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--error-color);
+    animation: errorPulse 0.5s ease-in-out 2;
+}
+
+.form-error-message.show {
+    display: block;
+}
+
+/* ==========================================================================
+   Banner
+   ========================================================================== */
+.bannerBox {
+    background: linear-gradient(135deg, rgba(0, 85, 102, 0.9), rgba(0, 85, 102, 0.7)), url('https://via.placeholder.com/1200x600?text=Virtual+Classroom') no-repeat center center/cover;
+    padding: 6rem 1rem;
+    color: var(--white);
+    text-align: center;
+}
+
+.bannerBox h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    color: var(--coral);
+    margin-bottom: 1.5rem;
+}
+
+.bannerBox h2 {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+}
+
+.bannerBox p {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    max-width: 700px;
+    margin: 0 auto;
+    font-weight: 300;
+}
+
+/* ==========================================================================
+   Tag Boxes
+   ========================================================================== */
+.tagBox {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    border: var(--glass-border);
+    padding: 1.2rem;
+    margin: 0.5rem;
+    border-radius: var(--border-radius);
+    color: var(--white);
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.tagBox:hover, .tagBox:focus-within {
+    transform: translateY(-8px);
+    box-shadow: var(--hover-shadow);
+}
+
+.tagBox h4 {
+    color: var(--coral);
+    font-weight: 600;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+}
+
+/* ==========================================================================
+   About Us
+   ========================================================================== */
+.aboutUs {
+    padding: 5rem 1rem;
+    background-color: var(--white);
+    text-align: center;
+}
+
+.aboutUs h1 {
+    color: var(--coral);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+}
+
+.deviderLine {
+    width: 80px;
+    height: 6px;
+    background: linear-gradient(to right, var(--coral), var(--coral-dark));
+    margin: 1rem auto;
+    border-radius: 3px;
+}
+
+.aboutUs p {
+    max-width: 700px;
+    margin: 0 auto;
+    font-weight: 300;
+    font-size: clamp(0.95rem, 2.5vw, 1rem);
+}
+
+.quotes {
+    margin-top: 1.5rem;
+    font-style: italic;
+    color: #555;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+}
+
+/* ==========================================================================
+   Services
+   ========================================================================== */
+.servicesBox {
+    padding: 5rem 1rem;
+    background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+    text-align: center;
+}
+
+.servicesBox h1 {
+    color: var(--coral);
+    margin-bottom: 2rem;
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+}
+
+.servBox {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    border: var(--glass-border);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    transition: var(--transition);
+}
+
+.servBox:hover, .servBox:focus-within {
+    transform: translateY(-8px);
+    box-shadow: var(--hover-shadow);
+}
+
+.servBox img {
+    height: 70px;
+    width: auto;
+    margin-bottom: 1rem;
+    transition: var(--transition);
+}
+
+.servBox img:hover, .servBox img:focus {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.servBox h3 {
+    color: var(--teal);
+    font-weight: 600;
+    font-size: clamp(1.2rem, 2.5vw, 1.4rem);
+}
+
+.servBox p {
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    flex-grow: 1;
+}
+
+.servBox .hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 85, 102, 0.85);
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--border-radius);
+    transition: opacity 0.4s ease-in-out;
+    color: var(--white);
+    z-index: 30; /* Higher z-index to prevent disappearance */
+    pointer-events: none;
+    padding: 1rem;
+    text-align: center;
+}
+
+.servBox:hover .hover-overlay, .servBox:focus-within .hover-overlay {
+    opacity: 1;
+    pointer-events: auto;
+    animation: hoverReveal 0.4s ease-in-out;
+}
+
+.servBox .hover-overlay p {
+    margin: 0.5rem 0;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+}
+
+.servBox .hover-overlay .btn {
+    margin-top: 0.5rem;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+}
+
+/* ==========================================================================
+   Tutors
+   ========================================================================== */
+.tutors {
+    padding: 5rem 1rem;
+    background-color: var(--white);
+    text-align: center;
+}
+
+.tutors h1 {
+    color: var(--coral);
+    margin-bottom: 2rem;
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+}
+
+.tutorBox {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    border: var(--glass-border);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    transition: var(--transition);
+}
+
+.tutorBox:hover, .tutorBox:focus-within {
+    transform: translateY(-8px);
+    box-shadow: var(--hover-shadow);
+}
+
+.tutorBox img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    transition: var(--transition);
+}
+
+.tutorBox img:hover, .tutorBox img:focus {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tutorBox h3 {
+    color: var(--teal);
+    font-weight: 600;
+    font-size: clamp(1.2rem, 2.5vw, 1.4rem);
+}
+
+.tutorBox p {
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    flex-grow: 1;
+}
+
+.tutorBox .hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 85, 102, 0.85);
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--border-radius);
+    transition: opacity 0.4s ease-in-out;
+    color: var(--white);
+    z-index: 30;
+    pointer-events: none;
+    padding: 1rem;
+    text-align: center;
+}
+
+.tutorBox:hover .hover-overlay, .tutorBox:focus-within .hover-overlay {
+    opacity: 1;
+    pointer-events: auto;
+    animation: hoverReveal 0.4s ease-in-out;
+}
+
+.tutorBox .hover-overlay p {
+    margin: 0.5rem 0;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+}
+
+.tutorBox .hover-overlay .btn {
+    margin-top: 0.5rem;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+}
+
+/* ==========================================================================
+   Tutor Profiles
+   ========================================================================== */
+.tutor-profiles {
+    padding: 5rem 1rem;
+    background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+    text-align: center;
+}
+
+.tutor-profiles h1 {
+    color: var(--coral);
+    margin-bottom: 2rem;
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+}
+
+.tutor-profile-box {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    border: var(--glass-border);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    transition: var(--transition);
+}
+
+.tutor-profile-box:hover, .tutor-profile-box:focus-within {
+    transform: translateY(-8px);
+    box-shadow: var(--hover-shadow);
+}
+
+.tutor-profile-box img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    transition: var(--transition);
+}
+
+.tutor-profile-box img:hover, .tutor-profile-box img:focus {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tutor-profile-box h3 {
+    color: var(--teal);
+    font-weight: 600;
+    font-size: clamp(1.2rem, 2.5vw, 1.4rem);
+}
+
+.tutor-profile-box p {
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    flex-grow: 1;
+}
+
+.tutor-profile-box .hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 85, 102, 0.85);
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--border-radius);
+    transition: opacity 0.4s ease-in-out;
+    color: var(--white);
+    z-index: 30;
+    pointer-events: none;
+    padding: 1rem;
+    text-align: center;
+}
+
+.tutor-profile-box:hover .hover-overlay, .tutor-profile-box:focus-within .hover-overlay {
+    opacity: 1;
+    pointer-events: auto;
+    animation: hoverReveal 0.4s ease-in-out;
+}
+
+.tutor-profile-box .hover-overlay p {
+    margin: 0.5rem 0;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+}
+
+.tutor-profile-box .hover-overlay .btn {
+    margin-top: 0.5rem;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+}
+
+.tutor-filter {
+    max-width: 1000px;
+    margin: 0 auto 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.tutor-filter .form-group {
+    flex: 1 1 200px;
+    max-width: 260px;
+}
+
+#noTutorsMessage {
+    display: none;
+    text-align: center;
+    color: var(--error-color);
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    margin-top: 1.5rem;
+}
+
+/* ==========================================================================
+   Modals
+   ========================================================================== */
+.modal-content {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    border: var(--glass-border);
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+    position: relative;
+    transition: var(--transition);
+    z-index: 100; /* Ensure modal is above other elements */
+}
+
+.modal-content:hover, .modal-content:focus-within {
+    transform: translateY(-4px);
+    box-shadow: var(--hover-shadow);
+}
+
+.modal-content .hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 85, 102, 0.85);
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--border-radius);
+    transition: opacity 0.4s ease-in-out;
+    color: var(--white);
+    z-index: 110;
+    pointer-events: none;
+    padding: 1rem;
+    text-align: center;
+}
+
+.modal-content:hover .hover-overlay, .modal-content:focus-within .hover-overlay {
+    opacity: 1;
+    pointer-events: auto;
+    animation: hoverReveal 0.4s ease-in-out;
+}
+
+.modal-content .hover-overlay p {
+    margin: 0.5rem 0;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+}
+
+.modal-content .hover-overlay .btn {
+    margin-top: 0.5rem;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+}
+
+.modal-title {
+    color: var(--coral);
+    font-weight: 600;
+    font-size: clamp(1.4rem, 3vw, 1.6rem);
+}
+
+.modal-body img {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+
+.modal-body img:hover, .modal-body img:focus {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-body p {
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    max-width: 360px;
+}
+
+/* ==========================================================================
+   Carousel
+   ========================================================================== */
+.carousel-inner {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    border: var(--glass-border);
+    border-radius: var(--border-radius);
+    padding: 1.2rem;
+}
+
+.carousel-item {
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    opacity: 0.8;
+}
+
+.carousel-item.active {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.carousel-control-prev, .carousel-control-next {
+    background: rgba(0, 85, 102, 0.6);
+    border-radius: var(--border-radius);
+    width: 4%;
+    opacity: 0.7;
+    transition: var(--transition);
+}
+
+.carousel-control-prev:hover, .carousel-control-next:hover {
+    background: var(--teal-dark);
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* ==========================================================================
+   Booking, Tutor Registration, Testimonials, Newsletter
+   ========================================================================== */
+.booking, .tutor-registration, .testimonials {
+    padding: 5rem 1rem;
+    background-color: var(--white);
+    text-align: center;
+}
+
+.tutor-registration, .testimonials {
+    background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+}
+
+.booking h1, .tutor-registration h1, .testimonials h1 {
+    color: var(--coral);
+    margin-bottom: 2rem;
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+}
+
+.booking form, .tutor-registration form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.newsletter {
+    padding: 5rem 1rem;
+    background: linear-gradient(135deg, var(--teal), var(--teal-hover));
+    color: var(--white);
+    text-align: center;
+}
+
+.newsletter h4 {
+    margin-bottom: 1.5rem;
+    font-size: clamp(1.2rem, 2.5vw, 1.4rem);
+}
+
+.newsletter form {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+}
+
+.newsletter .form-control {
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+    border-right: none;
+}
+
+.newsletter .btn {
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+footer {
+    background: linear-gradient(135deg, var(--dark-bg), var(--darker-bg));
+    color: var(--white);
+    padding: 4rem 1rem;
+}
+
+.footerLinks h4 {
+    color: var(--coral);
+    margin-bottom: 1.5rem;
+    font-size: clamp(1.2rem, 2.5vw, 1.4rem);
+}
+
+.footerLinks a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    transition: var(--transition);
+}
+
+.footerLinks a:hover {
+    color: var(--coral);
+    transform: translateX(5px);
+}
+
+.officeAddress ul li {
+    display: flex;
+    align-items: center;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    margin-bottom: 0.5rem;
+}
+
+.copyRight {
+    background-color: var(--darker-bg);
+    padding: 1.5rem 0;
+    text-align: center;
+    font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+}
+
+/* ==========================================================================
+   Back to Top
+   ========================================================================== */
+#back2Top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--coral);
+    color: var(--white);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    display: none;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+#back2Top:hover {
+    background: var(--coral-dark);
+    transform: scale(1.1);
+    box-shadow: var(--hover-shadow);
+}
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
+@media (max-width: 768px) {
+    .bannerBox { padding: 4rem 1rem; }
+    .bannerBox h1 { font-size: clamp(1.5rem, 4vw, 2rem); }
+    .bannerBox h2 { font-size: clamp(1rem, 3vw, 1.5rem); }
+    .bannerBox p { font-size: clamp(0.9rem, 2.5vw, 1rem); }
+    .navbar-nav { text-align: center; }
+    .navbar-nav .nav-item { margin: 0.75rem 0; }
+    .servicesBox, .tutors, .tutor-profiles, .booking, .tutor-registration, .testimonials { padding: 3rem 0.8rem; }
+    .servBox, .tutorBox, .tutor-profile-box { min-height: 280px; }
+    .servBox .hover-overlay, .tutorBox .hover-overlay, .tutor-profile-box .hover-overlay, .modal-content .hover-overlay { opacity: 0; pointer-events: none; }
+    .tutor-filter { flex-direction: column; align-items: center; }
+    .newsletter form, .booking form, .tutor-registration form { flex-direction: column; }
+    .newsletter .form-control, .booking .form-control, .tutor-registration .form-control { border-radius: var(--border-radius); border: 1px solid #ccc; }
+    .newsletter .btn, .booking .btn, .tutor-registration .btn { border-radius: var(--border-radius); }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand img { height: 32px; }
+    .nav-link { font-size: clamp(0.8rem, 2.5vw, 0.9rem); }
+    .servBox img, .tutorBox img, .tutor-profile-box img, .modal-body img { width: 80px; height: 80px; }
+    .form-control { font-size: clamp(0.85rem, 2.5vw, 0.95rem); }
+}
+
+@media (min-width: 1200px) {
+    .container { max-width: 1600px; }
+    .bannerBox { padding: 8rem 2rem; }
+    .servicesBox, .tutors, .tutor-profiles, .booking, .tutor-registration, .testimonials { padding: 6rem 2rem; }
+}
